@@ -1,6 +1,8 @@
-﻿namespace GameOfLife
+﻿using System.Windows.Media;
+
+namespace GameOfLife
 {
-    internal class Cell
+    public class Cell
     {
         public int PositionX { get; set; }
 
@@ -18,6 +20,22 @@
             PositionY = column * positionRatio;
             Age = age;
             IsAlive = alive;
+        }
+
+        public Brush GetBrushColor()
+        {
+            return IsAlive
+                ? (CheckIsFirstLife()
+                    ? Brushes.White
+                    : Brushes.DarkGray)
+                : Brushes.Gray;
+        }
+
+        public bool CheckIsFirstLife() => Age < 2;
+
+        public static Cell CreateNew(int i, int j)
+        {
+            return new Cell(i, j, 0, false);
         }
     }
 }
