@@ -7,55 +7,62 @@ using System.Windows.Shapes;
 
 namespace GameOfLife
 {
-    class Grid
+    internal class Grid
     {
+        public int SizeX { get; }
+        private int SizeY { get; }
 
-        private int SizeX;
-        private int SizeY;
-        private Cell[,] cells;
-        private Cell[,] nextGenerationCells;
-        private static Random rnd;
-        private Canvas drawCanvas;
-        private Ellipse[,] cellsVisuals;
+        private readonly Cell[,] cells;
+
+        private readonly Cell[,] nextGenerationCells;
+
+        private static Random _rnd;
+
+        private readonly Canvas drawCanvas;
+
+        private readonly Ellipse[,] cellsVisuals;
 
         
-        public Grid(Canvas c)
+        public Grid(Canvas canvas)
         {
-            drawCanvas = c;
-            rnd = new Random();
-            SizeX = (int) (c.Width / 5);
-            SizeY = (int)(c.Height / 5);
+            drawCanvas = canvas;
+            _rnd = new Random();
+            SizeX = (int) (canvas.Width / 5);
+            SizeY = (int)(canvas.Height / 5);
             cells = new Cell[SizeX, SizeY];
             nextGenerationCells = new Cell[SizeX, SizeY];
             cellsVisuals = new Ellipse[SizeX, SizeY];
- 
+
             for (int i = 0; i < SizeX; i++)
+            {
                 for (int j = 0; j < SizeY; j++)
                 {
                     cells[i, j] = new Cell(i, j, 0, false);
                     nextGenerationCells[i, j] = new Cell(i, j, 0, false);
                 }
+            }
 
             SetRandomPattern();
             InitCellsVisuals();
             UpdateGraphics();
-            
         }
 
 
         public void Clear()
         {
             for (int i = 0; i < SizeX; i++)
+            {
                 for (int j = 0; j < SizeY; j++)
                 {
                     cells[i, j] = new Cell(i, j, 0, false);
                     nextGenerationCells[i, j] = new Cell(i, j, 0, false);
                     cellsVisuals[i, j].Fill = Brushes.Gray;
                 }
+            }
         }
 
 
-        void MouseMove(object sender, MouseEventArgs e)
+        private void MouseMove(object sender, MouseEventArgs e)
         {
             var cellVisual = sender as Ellipse;
             
@@ -86,6 +93,7 @@ namespace GameOfLife
         public void InitCellsVisuals()
         {
             for (int i = 0; i < SizeX; i++)
+            {
                 for (int j = 0; j < SizeY; j++)
                 {
                     cellsVisuals[i, j] = new Ellipse();
@@ -98,32 +106,39 @@ namespace GameOfLife
 
                     cellsVisuals[i, j].MouseMove += MouseMove;
                     cellsVisuals[i, j].MouseLeftButtonDown += MouseMove;
-                 }
+                }
+            }
+
             UpdateGraphics();
-                    
         }
         
 
         public static bool GetRandomBoolean()
         {
-            return rnd.NextDouble() > 0.8;
+            return _rnd.NextDouble() > 0.8;
         }
 
         public void SetRandomPattern()
         {
             for (int i = 0; i < SizeX; i++)
+            {
                 for (int j = 0; j < SizeY; j++)
+                {
                     cells[i, j].IsAlive = GetRandomBoolean();
+                }
+            }
         }
         
         public void UpdateToNextGeneration()
         {
             for (int i = 0; i < SizeX; i++)
+            {
                 for (int j = 0; j < SizeY; j++)
                 {
                     cells[i, j].IsAlive = nextGenerationCells[i, j].IsAlive;
                     cells[i, j].Age = nextGenerationCells[i, j].Age;
                 }
+            }
 
             UpdateGraphics();
         }
@@ -138,7 +153,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < SizeY; j++)
                 {
-//                    nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
+                    // nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
                     CalculateNextGeneration(i, j, ref alive, ref age);   // OPTIMIZED
                     nextGenerationCells[i, j].IsAlive = alive;  // OPTIMIZED
                     nextGenerationCells[i, j].Age = age;  // OPTIMIZED
