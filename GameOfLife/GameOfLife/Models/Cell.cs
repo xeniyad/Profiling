@@ -33,6 +33,11 @@ namespace GameOfLife
 
         public bool CheckIsFirstLife() => Age < 2;
 
+        public override string ToString()
+        {
+            return IsAlive ? "Alive" : "Dead";
+        }
+
         public static Cell CreateNew(int i, int j)
         {
             return new Cell(i, j, 0, false);

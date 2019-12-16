@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using GameOfLife.Services;
 
 namespace GameOfLife
 {
@@ -14,7 +15,7 @@ namespace GameOfLife
         public MainWindow()
         {
             InitializeComponent();
-            mainGrid = new Grid(MainCanvas);
+            mainGrid = new Grid(MainCanvas, new OptimizedWayCellUpdater());
 
             timer = new DispatcherTimer();
             timer.Tick += OnTimer;

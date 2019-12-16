@@ -56,6 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\ICellUpdater.cs" />
+    <Compile Include="Services\CellUpdaterBase.cs" />
+    <Compile Include="Services\NotOptimizedCellUpdater.cs" />
+    <Compile Include="Services\OptimizedWayCellUpdater.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,9 +68,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cell.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="Grid.cs" />
+    <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\Grid.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
